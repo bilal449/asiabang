@@ -1,0 +1,28 @@
+<% unless @center.review_exists?(current_user) %>
+  <h2 class="page-title">Anmeld <%= @center.name %></h2>
+    Service  : <%= rating_for @center, 'service', disable_after_rate: true, enable_half: true, show_half: true, cancel_place: :right, targetElement: '.rater-data', 
+                    targetName: 'review[rater][service]', auto_submit: false %>
+    Price  : <%= rating_for @center, 'price', disable_after_rate: true, enable_half: true, show_half: true, cancel_place: :right, targetElement: '.rater-data', targetName: 'review[rater]', auto_submit: false %>
+    Attractiveness  : <%= rating_for @center, 'attractiveness', disable_after_rate: true, enable_half: true, show_half: true, cancel_place: :right, targetElement: '.rater-data', targetName: 'review[rater]', auto_submit: false %>
+  <%= form_for [@center, @review] do |f| %>
+    <div class="rater-data">
+      <%= hidden_field_tag "review[rater][service][dimension]", "service", class: 'rater-service-dimension' %>
+      <%= hidden_field_tag "review[rater][service][score]", nil, class: 'rater-service-score' %>
+      <%= hidden_field_tag "review[rater][service][classname]", "Center", class: 'rater-service-classname' %>
+      <%= hidden_field_tag "review[rater][price][dimension]", "price", class: 'rater-price-dimension' %>
+      <%= hidden_field_tag "review[rater][price][score]", nil, class: 'rater-price-score' %>
+      <%= hidden_field_tag "review[rater][price][classname]", "Center", class: 'rater-price-classname' %>
+      <%= hidden_field_tag "review[rater][attractiveness][dimension]", "attractiveness", class: 'rater-attractiveness-dimension' %>
+      <%= hidden_field_tag "review[rater][attractiveness][score]", nil, class: 'rater-attractiveness-score' %>
+      <%= hidden_field_tag "review[rater][attractiveness][classname]", "Center", class: 'rater-attractiveness-classname' %>
+    </div>
+    <%= f.label :comment %>
+    <%= f.text_area :comment %>
+    <br/>
+    <%= f.submit "Udgiv anmeldelse", class: "btn span3 btn-realto-form btn-large" %>
+  <% end %>
+<% else %>
+  <div class="alert alert-danger bs-alert-old-docs">
+    You have already reviewed this center.
+  </div>
+<% end %>

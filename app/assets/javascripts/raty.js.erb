@@ -1,0 +1,84 @@
+function initRaty(){
+  $.fn.raty.defaults.half = false;
+  $.fn.raty.defaults.halfShow = true;
+  $.fn.raty.defaults.path = '/assets';
+  $.fn.raty.defaults.cancel = false;
+  $('.star').each(function() {
+    var $half, $halfShow, $readonly, $single;
+    $half = void 0;
+    $halfShow = void 0;
+    $readonly = void 0;
+    $single = void 0;
+    $half = void 0;
+    $halfShow = void 0;
+    $readonly = void 0;
+    $single = void 0;
+    $readonly = $(this).attr('data-readonly') === 'true';
+    $half = $(this).attr('data-enable-half') === 'true';
+    $halfShow = $(this).attr('data-half-show') === 'true';
+    $single = $(this).attr('data-single') === 'true';
+    $(this).raty({
+      score: function() {
+        return $(this).attr('data-rating');
+      },
+      number: function() {
+        return $(this).attr('data-star-count');
+      },
+      half: $half,
+      halfShow: $halfShow,
+      single: $single,
+      path: $(this).attr('data-star-path'),
+      starOn: $(this).attr('data-star-on'),
+      starOff: $(this).attr('data-star-off'),
+      starHalf: $(this).attr('data-star-half'),
+      cancel: $(this).attr('data-cancel'),
+      cancelPlace: $(this).attr('data-cancel-place'),
+      cancelHint: $(this).attr('data-cancel-hint'),
+      cancelOn: $(this).attr('data-cancel-on'),
+      cancelOff: $(this).attr('data-cancel-off'),
+      noRatedMsg: $(this).attr('data-no-rated-message'),
+      round: $(this).attr('data-round'),
+      space: $(this).attr('data-space'),
+      target: $(this).attr('data-target'),
+      targetText: $(this).attr('data-target-text'),
+      targetType: $(this).attr('data-target-type'),
+      targetFormat: $(this).attr('data-target-format'),
+      targetScoret: $(this).attr('data-target-score'),
+      targetElement: $(this).attr('data-target-element'),
+      targetName: $(this).attr('data-target-name'),
+      readOnly: $readonly,
+      click: function(score, evt) {
+        var _this;
+        _this = void 0;
+        _this = void 0;
+        if ($(this).data('auto_submit')) {
+          _this = this;
+          if (score === null) {
+            score = 0;
+          }
+          $.post('<%= Rails.application.class.routes.url_helpers.rate_path %>', {
+            score: score,
+            dimension: $(this).attr('data-dimension'),
+            id: $(this).attr('data-id'),
+            klass: $(this).attr('data-classname')
+          }, function(data) {
+            if (data) {
+              if ($(_this).attr('data-disable-after-rate') === 'true') {
+                $(_this).raty('set', {
+                  readOnly: true,
+                  score: score
+                });
+              }
+            }
+          });
+        } else {
+          $('.rater-' + $(this).attr('data-dimension') + '-score').val(score);
+        }
+      }
+    });
+  });
+};
+
+$(function() {
+  initRaty();
+});

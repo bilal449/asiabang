@@ -1,0 +1,51 @@
+<div class="container page-content">
+    <div class="row">
+        <div class="span12">
+            <div class="row">
+              <% if @yoga_centers.blank? %>
+                <h1>Kunne ikke finde noget med din søgning.</h1>
+              <% else %>
+                <% @yoga_centers.each do |center| %>
+                  <div class="span4 center-box">
+                      <div class="holder">
+                          <a class="overlay" href="#" title="property title">
+                            <div class="hider-container">
+                              <span class="more"></span>
+                              <% if center.image_url.present? %>
+                                <%= link_to image_tag(center.image.url.to_s), center %>
+                              <% else %>
+                                <%= link_to image_tag("thai-massage.png"), center %>
+                              <% end %>
+                            </div>
+                          </a>
+                          <% if center.reviews.present? %>
+                            <span class="prop-tag star-rating" data-score=<%= center.reviews.average(:rating).round(2) %>></span>
+                          <% else %>
+                            <span class="prop-tag">No reviews yet!</span>
+                          <% end %>
+                          <div class="prop-info">
+                              <h3 class="prop-title"><%= link_to center.name, center %></h3>
+                              <ul class="more-info clearfix">
+                                  <li class="info-label clearfix"><span class="pull-left">Kategori</span>
+                                      <span class="qty pull-right"><%= center.category.name %></span></li>
+                                  <li class="info-label clearfix"><span class="pull-left">By</span>
+                                      <span class="qty pull-right"><%= center.postnummer %>, <%= center.city.capitalize %></span></li>
+                              </ul>
+                                <%- center.tags.each do |tag| %>
+                                  <%= image_tag tag.image.url, class: 'tags grow' %>
+                                <% end %>
+                                <span id="wrapper">
+                                  <%= link_to 'What do the icons mean?', '/tags', class: 'pull-right question' %>
+                          </div>
+                      </div>
+                  </div>
+                <% end %>
+              <% end %>
+                <!-- .span4 .box-container -->
+            </div>
+            <!-- .row -->
+        </div>
+        <!-- .span12 -->
+    </div>
+    <!-- .row -->
+</div>

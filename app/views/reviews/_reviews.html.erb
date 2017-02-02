@@ -1,0 +1,35 @@
+<div class="clearfix padding30">
+  <% unless @center.review_exists?(current_user) %>
+    <%= link_to "Skriv en bedømmelse", new_center_review_path(@center), remote: true, class: 'btn btn-medium btn-realto', "data-toggle" => "modal", "data-target" => "review"  %>
+  <% end %>
+  <h3>Reviews</h3>
+  <% if @reviews.blank? %>
+    <p>No reviews yet!</p>
+  <% else %>
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="col-md-3"></th>
+          <th cass="col-md-9"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @reviews.each do |review| %>
+        <tr>
+          <td>
+            <h5><%= "#{review.user.first_name} #{review.user.last_name}" %></h5>
+          </td>
+          <td>
+            <% review.ratings.each do |rating| %>
+              <div class="clearfix star-rating" data-score=<%= rating.stars %>>
+                <%= rating.dimension.humanize %>
+              </div>
+            <% end %>
+            <%= review.comment %>
+          </td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+</div>

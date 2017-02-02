@@ -1,0 +1,23 @@
+<div id="files" class="files dropzone needsclick">
+    <div class="dz-message needsclick">
+        Drop files here or click to upload.
+    </div>
+</div>
+<%= hidden_field_tag "center[center_attachment_ids][]", [], class: 'center_attachment_ids' %>
+<script type="text/javascript">
+    $(function () {
+        var myDropzone = new Dropzone(".dropzone", 
+          { 
+            url: "<%= center_attachments_path %>",
+            success: function(file, response){
+                var new_val = $('.center_attachment_ids').val() + response.id.toString() +",";
+                $('.center_attachment_ids').val(new_val.split(","))
+            },
+            paramName: "center_attachment[cover]",
+            params:{
+                'authenticity_token':  $('meta[name="csrf-token"]').attr('content')
+            }
+            });
+        Dropzone.autoDiscover = false
+    });
+</script>

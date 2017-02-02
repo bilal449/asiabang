@@ -1,0 +1,19 @@
+<ul class="thumbnails">
+  <% @categories.each do |category| %>
+    <li class="span4 box-container">
+      <div class="holder">
+        <a class="overlay" title="property title" href="#">
+          <span class="more"></span>
+          <% if category.image_url.present? %>
+            <%= link_to image_tag(category.image.url.to_s), category %>
+          <% else %>
+            <%= link_to image_tag("thai-massage.png"), @category_path %>
+          <% end %>
+        </a>
+         <div class="prop-info">
+          <h3 class="prop-title"><%= link_to category.name, category %></h3>
+        </div>
+      </div>
+    </li>
+  <% end %>
+</ul>

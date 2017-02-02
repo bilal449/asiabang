@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Center Attachments</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Center</th>
+      <th>Cover</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @center_attachments.each do |center_attachment| %>
+      <tr>
+        <td><%= center_attachment.center_id %></td>
+        <td><%= center_attachment.cover %></td>
+        <td><%= link_to 'Show', center_attachment %></td>
+        <td><%= link_to 'Edit', edit_center_attachment_path(center_attachment) %></td>
+        <td><%= link_to 'Destroy', center_attachment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Center Attachment', new_center_attachment_path %>

@@ -1,0 +1,1 @@
+json.array! @center_attachments, partial: 'center_attachments/center_attachment', as: :center_attachment

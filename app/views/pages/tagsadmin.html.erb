@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Tags</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @tags.each do |tag| %>
+      <tr>
+        <td class="tag"><%= image_tag tag.image.url %><%= link_to tag.name, tag, class: 'tag' %><%= link_to "Delete", tag_path(tag), method: :delete, data: { confirm: "Are you sure?" }, class: "data" %>
+          <br />
+          <br />
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Tag', new_tag_path %>

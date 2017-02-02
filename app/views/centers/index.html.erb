@@ -1,0 +1,191 @@
+<div id="home-search-container">
+  <div class="container">
+    <div class="row">
+      <div class="span12">
+        <div class="widget pull-right">
+          <div class="row">
+            <div class="span12 head-container">
+            <div class="row">
+              <div class="span8 hidden-phone">
+                <h2 class="head-title">Welcome to Joopstar!</h2>
+                <p class="head-message"><strong>Find the best thai massage near you.</strong><br />
+                Never be disappointed again...</p>
+                <%= link_to "Opret center", new_center_path, class: "btn btn-large btn-realto span3 header-cta" %>
+              </div>
+              <div class="span4" style="padding-bottom: 150px;">
+                <div class="search-form">
+                  <p>Find the best thai massage near you!</p>
+                  <%= form_tag search_centers_path , method: :get do |f| %>
+                    <%= text_field_tag :search, nil, placeholder: "thaimassage, escort, bordel, etc." %>
+                    <%= text_field_tag :location, nil, placeholder: "Copenhagen, Stockholm, London, etc." %>
+                    <%= select_tag :category, options_for_select(Category.all.map{ |c| [c.name, c.id]}) %>
+                    <%= submit_tag 'Search', class: 'btn span2 btn-realto-form btn-large' %>
+                  <% end %>
+                </div>
+                <!-- .search-form -->   
+              </div>
+              <!-- .span4 -->
+            </div>
+          </div>        
+          </div>
+          <!-- .row -->
+        </div>
+        <!-- .search-holder -->
+      </div>
+      <!-- .span12 -->
+    </div>
+    <!-- .row -->
+  </div>
+  <!-- .container -->
+</div>
+<div id="latest-properties">
+  <div class="container">
+  <div class="row">
+    <div class="span12">
+    <h2 class="secion-title">Seneste</h2>
+    </div>
+  </div>
+  
+  <!-- Begin Carousel -->
+  <div class="row">
+    <div id="realto-carousel" class="carousel slide span12">
+      <div class="carousel-navigation pull-right">
+      <%= link_to "Se alle", search_centers_path, class: "serif italic pull-left view-all-carousel" %>
+      <a class="left carousel-control pull-left" href="#realto-carousel" data-slide="prev">‹</a>
+      <a class="right carousel-control pull-right" href="#realto-carousel" data-slide="next">›</a>
+      </div>
+      <div class="carousel-inner">
+        <div class="item active">
+          <ul class="thumbnails">
+            <% @centers.last(3).each do |center| %>
+              <li class="span4 center-box">
+                <div class="holder">
+                  <div class="hider-container">
+                    <% if center.image_url.present? %>
+                      <%= link_to image_tag(center.image.url.to_s), center %>
+                    <% else %>
+                      <%= link_to image_tag("thai-massage.png"), center %>
+                    <% end %>
+                    <% if center.reviews.present? %>
+                      <span class="prop-tag star-rating" data-score=<%= center.overall_avg.round(2) %>></span>
+                    <% else %>
+                      <span class="prop-tag"><%= link_to "Review", new_center_review_path(center), remote: true, "data-toggle" => "modal", "data-target" => "review"%></span>
+                    <% end %>
+                  </div>
+                  <div class="prop-info">
+                    <h3 class="prop-title"><%= link_to center.name, center %></h3>
+                    <ul class="more-info clearfix">
+                      <li class="info-label clearfix"><span class="pull-left">Location:</span> <span class="qty pull-right"><%= center.country %>, <%= center.city %></span></li>
+                      <li class="info-label clearfix"><span class="pull-left">Category:</span> <span class="qty pull-right"><%= center.category.name %></span></li>
+                    </ul>
+                      <%- center.tags.each do |tag| %>
+                        <%= image_tag tag.image.url, class: 'tags grow' %>
+                      <% end %>
+                      <%= link_to 'What is this?', '/tags', class: 'pull-right question' %>
+                  </div>
+                </div>
+              </li>
+            <% end %>
+          </ul>
+        </div><!-- .item -->
+        <div class="item">
+          <ul class="thumbnails">
+              <% @centers.order(:id).reverse_order.limit(3).offset(3).each do |center| %>
+              <li class="span4 box-container">
+              <div class="holder">
+                  <a class="overlay" title="property title" href="#">
+                  <span class="more"></span>
+                    <% if center.image_url.present? %>
+                      <%= link_to image_tag(center.image.url.to_s), center %>
+                    <% else %>
+                      <%= link_to image_tag("thai-massage.png"), center %>
+                    <% end %>
+                  </a>
+                  <% if center.reviews.present? %>
+                    <span class="prop-tag star-rating" data-score=<%= center.overall_avg.round(2) %>></span>
+                  <% else %>
+                    <span class="prop-tag">No reviews yet!</span>
+                  <% end %>
+                  <div class="prop-info">
+                    <h3 class="prop-title"><%= link_to center.name, center %></h3>
+                    <ul class="more-info clearfix">
+                      <li class="info-label clearfix"><span class="pull-left">Location:</span> <span class="qty pull-right"><%= center.country %>, <%= center.city %></span></li>
+                      <li class="info-label clearfix"><span class="pull-left">Kategori:</span> <span class="qty pull-right"><%= center.category.name %></span></li>
+                    </ul>
+                  </div>
+                </div>
+              </li>
+            <% end %>
+          </ul>
+        </div><!-- .item -->
+           
+      </div><!-- .carousel-inner -->
+    </div>
+  </div><!--End Carousel-->
+  
+  </div><!-- .container  -->
+</div><!-- #latest-properties  -->
+
+
+<!-- #latest-properties  -->
+<div class="container">
+  <div class="row">
+    <div class="home-bottom-top">
+      <div class="span4">
+        <div class="info-box">
+          <h2 class="secion-title">Massage</h2>
+          <% @massage_centers.limit(5).each do |center| %>        
+            <ul class="more-info clearfix">
+              <li class="info-label clearfix"><%= link_to center.name, center %>
+                <% if center.reviews.present? %>
+                  <span class="qty pull-right star-rating" data-score=<%= center.overall_avg.round(2) %>></span>
+                <% else %>
+                  <span class="qty pull-right">No reviews yet!</span>
+                <% end %>
+              </li>
+            </ul>
+          <% end %>
+          <%= link_to "View all &raquo".html_safe, massage_path %>
+        </div>
+      </div>
+      <!-- .span4 -->
+      <div class="span4">
+        <div class="info-box">
+          <h2 class="secion-title">Yoga</h2>
+          <% @yoga_centers.limit(5).each do |center| %>        
+            <ul class="more-info clearfix">
+              <li class="info-label clearfix"><%= link_to center.name, center %>
+                <% if center.reviews.present? %>
+                  <span class="qty pull-right star-rating" data-score=<%= center.overall_avg.round(2) %>></span>
+                <% else %>
+                  <span class="qty pull-right">No reviews yet!</span>
+                <% end %>
+              </li>
+            </ul>
+          <% end %>
+          <%= link_to "View all &raquo".html_safe, yoga_path %>
+        </div>
+      </div>
+      <!-- .span4 -->
+      <div class="span4">
+        <div class="info-box">
+          <h2 class="secion-title">Coaching</h2>
+          <% @coaching_centers.limit(5).each do |center| %>
+            <ul class="more-info clearfix">
+              <li class="info-label clearfix">
+                <%= link_to center.name, center %>
+                <% if center.reviews.present? %>
+                  <span class="qty pull-right star-rating" data-score=<%= center.overall_avg.round(2) %>></span>
+                <% else %>
+                  <span class="qty pull-right">No reviews yet!</span>
+                <% end %>
+              </li>
+            </ul>
+          <% end %>
+          <%= link_to "View all &raquo".html_safe, coaching_path %>
+        </div>
+      </div>
+      <!-- .span4 -->
+    </div>
+  </div>
+</div>

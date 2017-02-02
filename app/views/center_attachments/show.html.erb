@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Center:</strong>
+  <%= @center_attachment.center_id %>
+</p>
+
+<p>
+  <strong>Cover:</strong>
+  <%= @center_attachment.cover %>
+</p>
+
+<%= link_to 'Edit', edit_center_attachment_path(@center_attachment) %> |
+<%= link_to 'Back', center_attachments_path %>

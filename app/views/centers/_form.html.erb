@@ -1,0 +1,47 @@
+<%= simple_form_for(@center, html: { multipart: true, class: 'fileupload-form' }) do |f| %>
+  <%= f.label :name %>
+  <%= f.text_field :name %>
+
+  <%= f.label :description %>
+  <%= f.text_area :description %>
+
+  <br />
+
+  <%= f.label :category %>
+  <%= f.select :category_id, Category.all.map{ |f| [f.name, f.id] } %>
+  
+  <%= f.input :tag_ids, :as => :select, :input_html => {:class => "chosen-input",   :style => "min-width: 350px;", multiple: true}, :collection => Tag.order(:name).pluck(:name, :id), label: 'Services' %>
+
+  <%= f.label :country %>
+  <%= country_select("user", "country", { priority_countries: ["SE", "DK", "GB", "FI", "DE"], include_blank: 'Select your country' }) %>
+
+  <%= f.label :street %>
+  <%= f.text_field :address1 %>
+
+  <%= f.label :city %>
+  <%= f.text_field :city %>
+
+  <%= f.label :zipcode %>
+  <%= f.text_field :postnummer %>
+
+  <%= f.label :phone %>
+  <%= f.text_field :telefon %>
+
+
+  <%= f.label :email %>
+  <%= f.text_field :email %><br />
+   <%= f.file_field :image %><br />
+  <div class="row">
+    <%= f.fields_for :center_attachments do |c| %>
+      <div class="span2">
+        <%= image_tag c.object.cover_url(:thumb) %>  
+        <%= c.label :_destroy, "Remove Image" %>
+        <%= c.check_box :_destroy %>
+      </div>
+    <% end %>  
+  </div>
+  <div class="row">
+    <%= render 'fileupload', f: f %>  
+  </div>
+  <%= f.submit "Opret", class: "btn span3 btn-realto-form btn-large" %>
+<% end %>

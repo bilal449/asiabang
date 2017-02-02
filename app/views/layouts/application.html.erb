@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fitstyle</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <%= render 'layouts/header' %>
+
+  <div class="container">
+    <% flash.each do |key, value| %>
+      <div class="alert alert-<%= key %>">
+        <a href="#" data-dismiss="alert" class="close">×</a>
+        <ul>
+          <li>
+            <%= value %>
+          </li>
+        </ul>
+      </div>
+    <% end %>
+  </div>
+
+    <%= yield %>
+    <div class="ratings-modal">
+      <div id="review" class="modal hide fade" tabindex="-1" role="modal" aria-labelledby="reviewLabel" aria-hidden="true">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h3 id="reviewLabel">Post a review</h3>
+        </div>
+        <div class="modal-body review-form">
+          <%#= render 'reviews/form' %>
+        </div>
+      </div>
+    </div>
+    <%#= render 'layouts/footer' %>
+    <script>
+      $('.star-rating').raty({
+        path: '/assets',
+        readOnly: true,
+        score: function () {
+          return $(this).attr('data-score');
+        }
+      });
+    </script>
+  </body>
+</html>

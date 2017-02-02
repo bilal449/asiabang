@@ -1,0 +1,1 @@
+json.partial! "center_attachments/center_attachment", center_attachment: @center_attachment

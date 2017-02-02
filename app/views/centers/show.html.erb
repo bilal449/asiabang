@@ -1,0 +1,78 @@
+<div class="container page-content">
+  <div class="row">
+    <div class="span8">
+      <div class="box-container">
+        <%= render 'carousel' %>
+        <!-- .cycle-slideshow -->
+        <div id="adv-custom-pager"></div>
+        <div class="clearfix">
+          <div class="clearfix padding30">
+            <h2 class="prop-title pull-left margin0"><%= @center.name %></h2>
+              <% if current_user.try(:admin?) %>
+                <small><%= link_to "Edit", edit_center_path, class: "btn btn-primary btn-mini" %></small>
+                <small><%= link_to "Delete", center_path, method: :delete, data: {confirm: "Are you sure you want to delete?"}, class: "btn btn-danger btn-mini" %></small>
+              <% else %>
+              <% end %>
+            <div class="prop-price pull-right serif italic star-rating" data-score=<%= @center.service_avg %>>Service</div>
+            <br/>
+            <div class="prop-price pull-right serif italic star-rating" data-score=<%= @center.price_avg %>>Price</div>
+            <br/>
+            <div class="prop-price pull-right serif italic star-rating" data-score=<%= @center.attractiveness_avg %>>Attractiveness</div>
+            <br/>
+          </div>
+          <div class="clearfix padding030 row-fluid">
+            <ul class="more-info pull-left span6">
+              <li class="info-label clearfix"><span class="pull-left">Kategori:</span>
+                <span class="qty pull-right"><%= @center.category.name %></span></li>
+              <li class="info-label clearfix"><span class="pull-left">Website:</span>
+                <span class="qty pull-right"><%= @center.name %></span></li>
+              <li class="info-label clearfix"><span class="pull-left">Beskrivelse:</span>
+                <span class="qty pull-right"><%= @center.description %></span></li>
+            </ul>
+            <ul class="more-info pull-right span6">
+              <li class="info-label clearfix"><span class="pull-left">Telefon:</span>
+                <span class="qty pull-right"><%= @center.telefon %></span></li>
+              <li class="info-label clearfix"><span class="pull-left">Email:</span>
+                <span class="qty pull-right"><%= @center.email %></span></li>
+              <li class="info-label clearfix"><span class="pull-left">Address:</span>
+                <span class="qty pull-right">
+                  <%= @center.address1 %><br />
+                  <%= @center.city %><br />
+                  <%= @center.postnummer %><br />
+                </span></li>
+              <li class="info-label clearfix"><span class="pull-left">Country:</span>
+                <span class="qty pull-right">
+                  <%= @center.country %>
+                </span></li>
+            </ul>
+          </div>
+
+          <%= render 'tags/tags' %>
+          <%= render 'reviews/reviews' %>
+
+        </div>
+      </div>
+    </div>
+    <!-- .span8 -->
+    <div class="span4">
+      <div class="widget map box-container padding30">
+        <h3 class="widget-title">Map &amp; Directions</h3>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d8974.009471789335!2d<%= @center.longitude %>5!3d<%= @center.latitude %>!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sdk!4v1483534888972" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+      </div>
+      <!-- .agent-box -->
+      <div class="search-form widget">
+        <p>Find the best thai massage near you!</p>
+                  <%= form_tag search_centers_path , method: :get do |f| %>
+                    <%= text_field_tag :search, nil, placeholder: "thaimassage, escort, bordel, etc." %>
+                    <%= text_field_tag :location, nil, placeholder: "Copenhagen, Stockholm, London, etc." %>
+                    <%= select_tag :category, options_for_select(Category.all.map{ |c| [c.name, c.id]}) %>
+                    <%= select_tag :tag, options_for_select(Tag.all.map{ |c| [c.name, c.id]}) %>
+                    <%= submit_tag 'Search', class: 'btn span2 btn-realto-form btn-large' %>
+                  <% end %>
+      </div>
+      <!-- .search-form -->
+    </div>
+    <!-- .span4 -->
+  </div>
+  <!-- .row -->
+</div>
